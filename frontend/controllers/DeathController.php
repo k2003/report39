@@ -67,7 +67,8 @@ select distinct
             , b_employee.provider as PROVIDER
             , rpad(substr(t_death.death_date_time,1,4)::int -543
                                                 ||replace(replace(replace(substr(t_death.death_date_time,5),'-',''),',',''),':',''),14,'0') as D_UPDATE
-            ,t_death.death_staff_record as lastmodify                                  
+            ,t_health_family.patient_pid as CID                                    
+            ,t_death.death_staff_record as lastmodify
 from
         t_death inner join t_health_family on t_death.t_health_family_id = t_health_family.t_health_family_id
         left join t_visit on t_death.t_visit_id = t_visit.t_visit_id

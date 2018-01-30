@@ -16,10 +16,10 @@ class AncController extends \yii\web\Controller
 
           $sql = "
 SELECT  distinct
-	b_site.b_visit_office_id AS HOSPCODE 				
-    ,t_health_family.health_family_hn_hcis as PID 	
-    ,case when t_health_anc.is_anc_place_other = '1' then '' 
-                else t_visit.visit_vn end AS SEQ 		
+	b_site.b_visit_office_id AS HOSPCODE
+    ,t_health_family.health_family_hn_hcis as PID
+    ,case when t_health_anc.is_anc_place_other = '1' then ''
+                else t_visit.visit_vn end AS SEQ
     , case  when  t_health_anc.health_anc_survey is not null and trim(t_health_anc.health_anc_survey) <> ''
                 then (to_number(substring(t_health_anc.health_anc_survey,1,5),'9999')-543)
                         || substring(t_health_anc.health_anc_survey,6,2)
@@ -27,7 +27,7 @@ SELECT  distinct
                else (to_number(substring(t_health_anc.modify_date_time,1,5),'9999')-543)
                         || substring(t_health_anc.modify_date_time,6,2)
                         || substring(t_health_anc.modify_date_time,9,2)
-     end AS DATE_SERV 
+     end AS DATE_SERV
     , t_health_pregnancy.health_pregnancy_gravida_number AS GRAVIDA
     , t_health_anc.f_health_anc_section AS ANCNO
     , t_health_anc.health_anc_gravida_week AS  GA
@@ -36,7 +36,7 @@ SELECT  distinct
 		when t_health_anc.health_anc_exam ='2'
 		then '2'
 		else '9' end AS ANCRESULT
-    ,case when t_health_anc.is_anc_place_other = '1' 
+    ,case when t_health_anc.is_anc_place_other = '1'
             then (case when t_health_anc.anc_place_hcode <> '' then t_health_anc.anc_place_hcode else '00000' end)
             else (case when t_health_pregnancy.b_visit_office_id <> '' then t_health_pregnancy.b_visit_office_id else '00000' end) end AS ANCPLACE
     ,b_employee.provider as PROVIDER
@@ -76,29 +76,49 @@ SELECT  distinct
                                   then (cast(substring(t_health_anc.modify_date_time,1,4) as numeric) - 543
                                                 || replace(replace(replace(substring(t_health_anc.modify_date_time,5),'-',''),',',''),':','')) || '000000'
                                   else ''
-                           end            
+                           end
                 else ''
-       end)  as D_UPDATE 
+       end)  as D_UPDATE
+       , case when t_health_family.patient_pid <> '' and length(t_health_family.patient_pid) =13
+                       then t_health_family.patient_pid
+               when t_health_family.patient_pid = ''
+/*                                 and t_health_family.health_family_foreigner_card_no = ''
+                           and t_health_family.r_rp1853_foreign_id in ('02','03','04','11','12','13','14','21','22','23')
+                     then
+                              lpad(t_patient.patient_hn,13,'0')
+               when  t_health_family.health_family_foreigner_card_no <> '' and length(t_health_family.health_family_foreigner_card_no) =13
+                       then  t_health_family.health_family_foreigner_card_no
+               else ''
+               end as CID */
+                           and t_person_foreigner.foreigner_no = ''
+                           and t_person_foreigner.f_person_foreigner_id in ('02','03','04','11','12','13','14','21','22','23')
+                       then
+                           lpad(t_patient.patient_hn,13,'0')
+                when t_person_foreigner.foreigner_no <> '' and length(t_person_foreigner.foreigner_no) = 13
+                       then t_person_foreigner.foreigner_no
+                else ''
+                   end as CID
 
 
-
-FROM t_health_anc 			
-	INNER JOIN t_health_family ON t_health_anc.t_health_family_id = t_health_family.t_health_family_id      			
-	INNER JOIN t_visit ON t_health_anc.t_visit_id = t_visit.t_visit_id 		
+FROM t_health_anc
+	INNER JOIN t_health_family ON t_health_anc.t_health_family_id = t_health_family.t_health_family_id
+  left join t_patient on t_health_family.t_health_family_id = t_patient.t_health_family_id and  t_patient.patient_active = '1'
+	left join t_person_foreigner on t_health_family.t_health_family_id = t_person_foreigner.t_person_id       			
+	INNER JOIN t_visit ON t_health_anc.t_visit_id = t_visit.t_visit_id
         INNER JOIN t_health_pregnancy ON t_health_anc.t_health_pregnancy_id = t_health_pregnancy.t_health_pregnancy_id and t_health_pregnancy.health_pregnancy_active='1'
-        LEFT JOIN b_employee ON t_health_anc.health_anc_staff_record = b_employee.b_employee_id 
+        LEFT JOIN b_employee ON t_health_anc.health_anc_staff_record = b_employee.b_employee_id
 
         left join t_death on t_health_family.t_health_family_id = t_death.t_health_family_id
                                     and t_death.death_active = '1'
 
 	,b_site
-WHERE  
-        t_health_anc.health_anc_active = '1'         
-        AND t_health_family.health_family_active = '1' 
-        AND t_visit.f_visit_type_id <> 'S' 
+WHERE
+        t_health_anc.health_anc_active = '1'
+        AND t_health_family.health_family_active = '1'
+        AND t_visit.f_visit_type_id <> 'S'
         AND t_visit.f_visit_status_id ='3'
         AND t_visit.visit_money_discharge_status='1'
-        AND t_visit.visit_doctor_discharge_status='1' 
+        AND t_visit.visit_doctor_discharge_status='1'
           ";
                 if (!empty($date1) && !empty($date2)) {
           $yt1=543+$y1=substr($date1, 0, 4);
@@ -126,26 +146,26 @@ WHERE
             $m2=substr($date2, 5, 2);
             $d2=substr($date2, 8, 2);
             $dq2=$yt2.'-'.$m2.'-'.$d2;
-                  $sql.= " 
-        AND substr( t_visit.visit_staff_doctor_discharge_date_time,1,10) between '$dq1' and '$dq2'				  
+                  $sql.= "
+        AND substr( t_visit.visit_staff_doctor_discharge_date_time,1,10) between '$dq1' and '$dq2'
 						";
           }
                   $sql .="
-        and (case when t_death.t_death_id is not null 
-                    then true 
+        and (case when t_death.t_death_id is not null
+                    then true
                when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
-                    then true 
+                    then true
                     else false end)
                   ";
 
-			$query = Yii::$app->db->createCommand($sql)->queryAll();           
-			$dataProvider = new ArrayDataProvider([ 
+			$query = Yii::$app->db->createCommand($sql)->queryAll();
+			$dataProvider = new ArrayDataProvider([
               'allModels' => $query,
             //  'pagination' => FALSE,
               'pagination' => true,
               'pagination' => ['pagesize' => 10],
-			]);             
-			
+			]);
+
                   return $this->render('index', [
                       'dataProvider' => $dataProvider,
                       'query' => $query,
@@ -153,8 +173,8 @@ WHERE
                       'data' => $data,
                       'date1' => $date1,
                       'date2' => $date2,
-					  
-          ]);  
+
+          ]);
     }
 
 }

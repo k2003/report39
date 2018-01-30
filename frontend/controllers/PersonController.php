@@ -19,11 +19,11 @@ select  distinct
             b_site.b_visit_office_id as HOSPCODE
             , case when t_health_family.patient_pid <> '' and length(t_health_family.patient_pid) =13
                             then t_health_family.patient_pid
-                    when t_health_family.patient_pid = '' 
-/*                                 and t_health_family.health_family_foreigner_card_no = '' 
+                    when t_health_family.patient_pid = ''
+/*                                 and t_health_family.health_family_foreigner_card_no = ''
                                 and t_health_family.r_rp1853_foreign_id in ('02','03','04','11','12','13','14','21','22','23')
-                          then 
-                                   lpad(t_patient.patient_hn,13,'0')                                      
+                          then
+                                   lpad(t_patient.patient_hn,13,'0')
                     when  t_health_family.health_family_foreigner_card_no <> '' and length(t_health_family.health_family_foreigner_card_no) =13
                             then  t_health_family.health_family_foreigner_card_no
                     else ''
@@ -82,26 +82,26 @@ select  distinct
                             then r_rp1855_nation.id
                             else ''
                       end as NATION
-            , case when b_map_rp1855_religion.r_rp1855_religion_id is not null 
+            , case when b_map_rp1855_religion.r_rp1855_religion_id is not null
                             then b_map_rp1855_religion.r_rp1855_religion_id
                             else ''
                       end as RELIGION
-            , case when r_rp1855_education.id is not null 
+            , case when r_rp1855_education.id is not null
                             then lpad(r_rp1855_education.id,2,'0')
-                            else '' 
+                            else ''
                        end as EDUCATION
             , t_health_family.f_patient_family_status_id AS FSTATUS
-            , case when father.patient_pid is not null 
+            , case when father.patient_pid is not null
                             then father.patient_pid
-                            else '' 
+                            else ''
                      end as FATHER
-            , case when mother.patient_pid is not null 
+            , case when mother.patient_pid is not null
                             then mother.patient_pid
-                            else '' 
+                            else ''
                      end as MOTHER
-            , case when couple.patient_pid is not null 
+            , case when couple.patient_pid is not null
                             then couple.patient_pid
-                            else '' 
+                            else ''
                      end as COUPLE
             , t_health_family.f_person_village_status_id as VSTATUS
             , case when t_health_family.patient_move_in_date_time is not null
@@ -109,12 +109,12 @@ select  distinct
                             then substring(t_health_family.patient_move_in_date_time,1,4)::int - 543
                             || substring(t_health_family.patient_move_in_date_time,6,2)
                             || substring(t_health_family.patient_move_in_date_time,9,2)
-                            else '' 
+                            else ''
                         end as MOVEIN
             , case when t_patient.f_patient_discharge_status_id in ('1','2','3')
                             then t_patient.f_patient_discharge_status_id
                         else '9'  end as DISCHARGE
-             , case when t_patient.patient_discharge_date_time is not null 
+             , case when t_patient.patient_discharge_date_time is not null
                                 and length(t_patient.patient_discharge_date_time)>9
                                 and t_patient.f_patient_discharge_status_id in ('1','2','3')
                             then substring(t_patient.patient_discharge_date_time,1,4)::int -543
@@ -127,21 +127,21 @@ select  distinct
                                             || substring(t_health_family.modify_date_time,6,2)
                                             || substring(t_health_family.modify_date_time,9,2)
                             else '' END AS DDISCHARGE
-              , case when f_patient_blood_group.r_rp1853_blood_id is not null 
-                            then  f_patient_blood_group.r_rp1853_blood_id 
+              , case when f_patient_blood_group.r_rp1853_blood_id is not null
+                            then  f_patient_blood_group.r_rp1853_blood_id
                             else '' end as ABOGROUP
 
-              , case when t_health_family.health_family_rh = '1' 
+              , case when t_health_family.health_family_rh = '1'
                             then '1'
-                       when t_health_family.health_family_rh = '0' 
+                       when t_health_family.health_family_rh = '0'
                              then '2'
                         else '' end as RHGROUP
-              /* , case when t_health_family.r_rp1853_foreign_id  is not null 
+              /* , case when t_health_family.r_rp1853_foreign_id  is not null
                                     and t_health_family.r_rp1853_foreign_id <> ''
                                     and trim(t_health_family.r_rp1853_foreign_id) <> 'null'
                                     and t_health_family.r_rp1853_foreign_id <> '0'
                                 then t_health_family.r_rp1853_foreign_id
-                                else '' 
+                                else ''
                         end AS LABOR  */
                , case when t_person_foreigner.f_person_foreigner_id is not null
                                 and t_person_foreigner.f_person_foreigner_id <> ''
@@ -153,15 +153,17 @@ select  distinct
                , t_person_foreigner.passport_no as PASSPORT
                ,case when t_health_family.f_patient_area_status_id = '0'
                                 then '5'
-                                else t_health_family.f_patient_area_status_id  
+                                else t_health_family.f_patient_area_status_id
                         end as TYPEAREA
               , case when length(t_health_family.modify_date_time) >= 10
                             then rpad(substr(t_health_family.modify_date_time,1,4)::int -543
-                                                ||replace(replace(replace(substr(t_health_family.modify_date_time,5),'-',''),',',''),':',''),14,'0') 
+                                                ||replace(replace(replace(substr(t_health_family.modify_date_time,5),'-',''),',',''),':',''),14,'0')
                             else rpad(substr(t_health_family.record_date_time,1,4)::int -543
-                                                ||replace(replace(replace(substr(t_health_family.record_date_time,5),'-',''),',',''),':',''),14,'0') end as D_UPDATE 
-			,t_patient.patient_staff_modify as lastmodify
-from 
+                                                ||replace(replace(replace(substr(t_health_family.record_date_time,5),'-',''),',',''),':',''),14,'0') end as D_UPDATE
+                                                ,substr(t_patient.patient_phone_number,1,15) as TELEPHONE                                    
+                                                ,substr(t_patient.patient_patient_mobile_phone,1,15)  as MOBILE
+      ,t_patient.patient_staff_modify as lastmodify
+from
         t_health_family left join t_patient on t_health_family.t_health_family_id = t_patient.t_health_family_id and  t_patient.patient_active = '1'
         left join t_person_foreigner on t_health_family.t_health_family_id = t_person_foreigner.t_person_id
         left join t_health_home on t_health_family.t_health_home_id = t_health_home.t_health_home_id
@@ -187,7 +189,7 @@ from
         left join b_map_rp1855_religion on f_patient_religion.f_patient_religion_id = b_map_rp1855_religion.f_patient_religion_id
         left join f_patient_education_type on t_health_family.f_patient_education_type_id = f_patient_education_type.f_patient_education_type_id
         left join b_map_rp1855_education on f_patient_education_type.f_patient_education_type_id = b_map_rp1855_education.f_patient_education_id
-        left join r_rp1855_education on b_map_rp1855_education.r_rp1855_education_id = r_rp1855_education.id 
+        left join r_rp1855_education on b_map_rp1855_education.r_rp1855_education_id = r_rp1855_education.id
         left join f_patient_blood_group on t_health_family.f_patient_blood_group_id = f_patient_blood_group.f_patient_blood_group_id
         left join t_health_family as father on t_health_family.father_family_id = father.t_health_family_id
         left join t_health_family as mother on t_health_family.mother_family_id = mother.t_health_family_id
@@ -198,12 +200,12 @@ from
 
         cross join b_site
 
-where 
+where
          t_health_family.health_family_active = '1'
 					--and t_health_family.health_family_hn_hcis='073528'
 
           ";
-		  		  		  		 
+
                 if (!empty($date1) && !empty($date2)) {
           $yt1=543+$y1=substr($date1, 0, 4);
           $m1=substr($date1, 5, 2);
@@ -217,8 +219,8 @@ where
                 $sql.= "
           and case when length(t_health_family.modify_date_time) >= 10
                             then substr(t_health_family.modify_date_time,1,10)
-                            else substr(t_health_family.record_date_time,1,10) 
-                         end between '$dq1' and '$dq2' 
+                            else substr(t_health_family.record_date_time,1,10)
+                         end between '$dq1' and '$dq2'
 						";
 
 }else {
@@ -233,33 +235,33 @@ where
             $m2=substr($date2, 5, 2);
             $d2=substr($date2, 8, 2);
             $dq2=$yt2.'-'.$m2.'-'.$d2;
-                  $sql.= " 
+                  $sql.= "
           and case when length(t_health_family.modify_date_time) >= 10
                             then substr(t_health_family.modify_date_time,1,10)
-                            else substr(t_health_family.record_date_time,1,10) 
-                         end between '$dq1' and '$dq2' 				  
+                            else substr(t_health_family.record_date_time,1,10)
+                         end between '$dq1' and '$dq2'
 						";
           }
                   $sql .="
-        and (case when t_death.t_death_id is not null 
-                    then true 
+        and (case when t_death.t_death_id is not null
+                    then true
                when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
-                    then true 
+                    then true
                     else false end)
 
-order by 
+order by
             CID asc
                   ";
-					
-			$query = Yii::$app->db->createCommand($sql)->queryAll();           
-			$dataProvider = new ArrayDataProvider([ 
+
+			$query = Yii::$app->db->createCommand($sql)->queryAll();
+			$dataProvider = new ArrayDataProvider([
               'allModels' => $query,
             //  'pagination' => FALSE,
               'pagination' => true,
               'pagination' => ['pagesize' => 10],
-			]); 
-            
-			
+			]);
+
+
                   return $this->render('index', [
                       'dataProvider' => $dataProvider,
                       'query' => $query,
@@ -267,8 +269,8 @@ order by
                       'data' => $data,
                       'date1' => $date1,
                       'date2' => $date2,
-				  
-          ]);  
+
+          ]);
     }
 
 }

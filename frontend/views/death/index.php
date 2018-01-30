@@ -101,26 +101,17 @@ echo GridView::widget([
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'hospcode:text:HOSPCODE',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'hospcode',
           'label' => 'HOSPCODE',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $hospcode=!empty($model["hospcode"]) ? $model["hospcode"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        //'pid:text:PID',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'pid',
-          'label' => 'PID',
           'format'=>'raw',
 					'value'=>function($model){
 			if (isset($model["lastmodify"])) {
 				$namemodify = Bemployee::findOne($model["lastmodify"]);
 				$fname=$namemodify->employee_firstname;
 				$lastname=$namemodify->employee_lastname;
-	            return $pid=!empty($model["pid"]) ?
-				Html::tag('span', $model["pid"], [
+	            return $hospcode=!empty($model["hospcode"]) ?
+				Html::tag('span', $model["hospcode"], [
 				'title'=> $fname.' '.$lastname,
 				'data-toggle'=>'tooltip',
 				'style'=>'text-decoration:underline;cursor:pointer;'
@@ -130,6 +121,15 @@ echo GridView::widget([
 				return '<span class="label label-danger">ไม่มี</span>';
 			}
           },
+        ],
+        //'pid:text:PID',
+        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+          'attribute' => 'pid',
+          'label' => 'PID',
+          'format'=>'raw',
+					'value'=>function($model){
+            return $pid=!empty($model["pid"]) ? $model["pid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+          }
         ],
 				'hospdeath:text:HOSPDEATH',
 				'an:text:AN',
@@ -200,9 +200,24 @@ echo GridView::widget([
             return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
+				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+          'attribute' => 'cid',
+          'label' => 'CID',
+          'format'=>'raw',
+          'value'=>function($model){
+            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+          }
+        ],
         ],
 ]);
 ?>
-<div class="alert alert-danger">
-    <?= $sql ?>
+<script type="text/javascript">
+				function showhide(id) {
+				var e = document.getElementById(id);
+				e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+				}
+</script>
+<ul class="nav nav-pills"><li role="presentation" class="active"><a href="javascript:showhide('sql')">code sql</a></li></ul>
+<div id="sql" style="display:none;">
+	<p><div class="alert alert-danger"><?php echo $sql ?></div></p>
 </div>

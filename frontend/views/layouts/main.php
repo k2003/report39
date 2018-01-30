@@ -45,8 +45,8 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                 </div>
                 <div class="clearfix"></div>
                 <!-- menu prile quick info -->
-                <!-- 
-                
+                <!--
+
                 <div class="profile">
                     <div class="profile_pic">
                         <img src="http://placehold.it/128x128" alt="..." class="img-circle profile_img">
@@ -72,37 +72,37 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                                 "items" => [
                                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                                     ["label" => "TEST", "url" => ["/test/index"], "icon" => "file-code-o"],
-									["label" => "หน้าแรก", "url" => ["/site/index"], "icon" => "home"],
-									["label" => "Dashboard", "url" => ["/dashboard/index"], "icon" => "dashboard"],
-	                                    [										
+                  									["label" => "หน้าแรก", "url" => ["/site/index"], "icon" => "home"],
+                  									["label" => "Dashboard", "url" => ["/dashboard/index"], "icon" => "dashboard"],
+	                                    [
                                         "label" => "ตรวจสอบข้อมูล 43 แฟ้ม",
                                         "url" => "#",
                                         "icon" => "th-list",
-                                        "items" => [									
+                                        "items" => [
                                             [
                                                 "label" => "1. แฟ้ม PERSON",
                                                 "url" => ["/person/index"],
                                             ],
-					                        [
+					                                  [
                                                 "label" => "2. แฟ้ม ADDRESS",
-                                                "url" => ["#"],
-                                            ],	
-			                                [
+                                                "url" => ["/address/index"],
+                                            ],
+			                                      [
                                                 "label" => "3. แฟ้ม DEATH",
                                                 "url" => ["/death/index"],
                                             ],
-											[
-												"label" => "4. แฟ้ม CHRONIC",
-												"url" => ["#"],
-											],
-					                        [
+                      											[
+                      												"label" => "4. แฟ้ม CHRONIC",
+                      												"url" => ["/chronic/index"],
+                      											],
+					                                  [
                                                 "label" => "5. แฟ้ม CARD",
                                                 "url" => ["#"],
                                             ],
 			                                [
                                                 "label" => "6. แฟ้ม HOME",
                                                 "url" => ["#"],
-                                            ],											
+                                            ],
 			                                [
                                                 "label" => "7. แฟ้ม VILLAGE",
                                                 "url" => ["#"],
@@ -118,7 +118,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "10. แฟ้ม WOMEN",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "11. แฟ้ม DRUGALLERGY",
                                                 "url" => ["#"],
@@ -134,7 +134,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "14. แฟ้ม SERVICE",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "15. แฟ้ม DIAGNOSIS_OPD",
                                                 "url" => ["#"],
@@ -146,7 +146,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "17. แฟ้ม PROCEDURE_OPD",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "18. แฟ้ม CHARGE_OPD",
                                                 "url" => ["#"],
@@ -162,7 +162,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "21. แฟ้ม LABFU",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "22. แฟ้ม CHRONICFU",
                                                 "url" => ["#"],
@@ -170,11 +170,11 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 			                                [
                                                 "label" => "23. แฟ้ม ADMISSION",
                                                 "url" => ["#"],
-                                            ],											
+                                            ],
 											[
 												"label" => "24. แฟ้ม DIAGNOSIS_IPD",
 												"url" => ["#"],
-											],	
+											],
 											[
 												"label" => "25. แฟ้ม DRUG_IPD",
 												"url" => ["#"],
@@ -186,7 +186,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "27. แฟ้ม CHARGE_IPD",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "28. แฟ้ม APPOINTMENT",
                                                 "url" => ["#"],
@@ -194,12 +194,12 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 											[
 											"label" => "29. แฟ้ม DENTAL",
 											"url" => ["/dental/index"],
-											
-											],	
+
+											],
 											[
 												"label" => "30. แฟ้ม REHABILITATION",
 												"url" => ["#"],
-											],	
+											],
 											[
 												"label" => "31. แฟ้ม NCDSCREEN",
 												"url" => ["#"],
@@ -211,19 +211,19 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 					                        [
                                                 "label" => "33. แฟ้ม PRENATAL",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 			                                [
                                                 "label" => "34. แฟ้ม ANC",
                                                 "url" => ["/anc/index"],
-                                            ],		
+                                            ],
 			                                [
                                                 "label" => "35. แฟ้ม LABOR",
                                                 "url" => ["#"],
-                                            ],	
+                                            ],
 											[
 											"label" => "36. แฟ้ม POSTNATAL",
 											"url" => ["#"],
-											],	
+											],
 			                                [
                                                 "label" => "37. แฟ้ม NEWBORN",
                                                 "url" => ["#"],
@@ -287,9 +287,9 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 			                                [
                                                 "label" => "52. แฟ้ม POLICY",
                                                 "url" => ["#"],
-                                            ],											
+                                            ],
                                         ],
-                                    ],								
+                                    ],
                                     ["label" => "NCD", "url" => ["/ncd/index"], "icon" => "th"],
                                     ["label" => "QOF", "url" => ["/qof/index"], "icon" => "th"],
                                     ["label" => "PPA", "url" => ["/ppa/index"], "icon" => "th"],
@@ -363,7 +363,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
 
                 </div>
                 <!-- /sidebar menu -->
- 
+
                 <!-- /menu footer buttons -->
                 <!--<div class="sidebar-footer hidden-small">
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
@@ -380,7 +380,7 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                     </a>
                 </div>-->
                 <!-- /menu footer buttons -->
-                
+
             </div>
         </div>
 
@@ -396,13 +396,13 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                     <ul class="nav navbar-nav navbar-right">
 						<?php $login = Yii::$app->urlManager->createUrl(['/site/login']);?>
 						<?php $logout = Yii::$app->urlManager->createUrl(['/logout/index']);?>
-                        
+
 						<?php if(!$checklogin){ ?>
-						<li><a href="<?=$login?>"><i class="glyphicon glyphicon-lock"></i> เข้าสู่ระบบ</a></li> 
+						<li><a href="<?=$login?>"><i class="glyphicon glyphicon-lock"></i> เข้าสู่ระบบ</a></li>
 						<?php }else { ?>
 						<li><a href="<?=$logout?>"><i class="glyphicon glyphicon-log-out"></i> ออกจากระบบ</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i><?=' '.$session['fname'].' '.$session['lname']?></a></li> 
-						<?php } ?>	
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i><?=' '.$session['fname'].' '.$session['lname']?></a></li>
+						<?php } ?>
                        <!--<li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <img src="http://placehold.it/128x128" alt="">John Doe

@@ -17,7 +17,7 @@ use frontend\models\Bemployee;
 
 /* @var $this yii\web\View */
 ?>
-<h1>แฟ้ม ANC</h1>
+<h1>แฟ้ม CHRONIC</h1>
     <div class='well'>
 <?php  $form = ActiveForm::begin([
         'action' => ['index'],
@@ -69,7 +69,7 @@ echo GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'panel'=>[
-            'before'=>'แฟ้ม ANC',
+            'before'=>'แฟ้ม CHRONIC',
             'after'=>'ประมวลผล ณ '.date('Y-m-d H:i:s'),
         ],
 	    'responsive' => true,
@@ -120,55 +120,38 @@ echo GridView::widget([
         ],
         //'seq:text:SEQ',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'seq',
-          'label' => 'SEQ',
+          'attribute' => 'date_diag',
+          'label' => 'DATE_DIAG',
           'format'=>'raw',
           'value'=>function($model){
-            return $seq=!empty($model["seq"]) ? $model["seq"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $date_diag=!empty($model["date_diag"]) ? $model["date_diag"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
 
 		//'date_serv:text:DATE_SERV',
 		[
-			'attribute' => 'date_serv',
-			'label' => 'DATE_SERV',
+			'attribute' => 'chronic',
+			'label' => 'CHRONIC',
 			'format'=>'raw',
 			//'width'=>'150px',
 			'noWrap'=>true,
 			'value'=>function ($model, $key, $index, $widget)
-			{ return $date_serv=!empty($model["date_serv"]) ? $model["date_serv"]: '<span class="label label-danger">ไม่มี</span>';
+			{ return $chronic=!empty($model["chronic"]) ? $model["chronic"]: '<span class="label label-danger">ไม่มี</span>';
 			},
 		],
-		//'gravida:text:GRAVIDA',
+		'hosp_dx:text:HOSP_DX',
+    'hosp_rx:text:HOSP_RX',
+    'date_disch:text:DATE_DISCH',
 		[
-			'attribute' => 'gravida',
-			'label' => 'GRAVIDA',
+			'attribute' => 'typedisch',
+			'label' => 'TYPEDISCH',
 			'format'=>'raw',
 			//'width'=>'150px',
 			'noWrap'=>true,
 			'value'=>function ($model, $key, $index, $widget)
-			{ return $gravida=!empty($model["gravida"]) ? $model["gravida"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
+			{ return $typedisch=!empty($model["typedisch"]) ? $model["typedisch"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
 			},
 		],
-		'ancno:text:ANCNO',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ga',
-          'label' => 'GA',
-          'format'=>'raw',
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $ga=!empty($model["ga"]) ? $model["ga"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ancresult',
-          'label' => 'ANCRESULT',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $ancresult=!empty($model["ancresult"]) ? $model["ancresult"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-		'ancplace:text:ANCPLACE',
-		'provider:text:PROVIDER',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'd_update',
           'label' => 'D_UPDATE',
