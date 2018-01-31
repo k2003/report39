@@ -15,7 +15,7 @@ use frontend\models\Bemployee;
 	}
 //check สิทธการเข้าใช้
 
-/* @var $this yii\web\View *///////
+/* @var $this yii\web\View */
 ?>
 <h1>แฟ้ม CHRONIC</h1>
     <div class='well'>
