@@ -19,9 +19,9 @@ select distinct
 b_site.b_visit_office_id as HOSPCODE
 ,t_health_family.health_family_hn_hcis as PID
 ,t_visit.visit_vn as SEQ
-, (to_number(substring(t_visit.visit_begin_visit_time,1,4),'9999')-543)        			
-		|| substring(t_visit.visit_begin_visit_time,6,2)       		
-		|| substring(t_visit.visit_begin_visit_time,9,2) as	DATE_SERV  
+, (to_number(substring(t_visit.visit_begin_visit_time,1,4),'9999')-543)
+		|| substring(t_visit.visit_begin_visit_time,6,2)
+		|| substring(t_visit.visit_begin_visit_time,9,2) as	DATE_SERV
 ,t_health_dental.f_dent_type_id as DENTTYPE
 ,case when t_visit.service_location='2'
 then '2'
@@ -86,72 +86,75 @@ then  t_health_dental.f_school_type_id else '' end as SCHOOLTYPE
                                   then (cast(substring(t_health_dental.dental_modify_time,1,4) as numeric) - 543
                                                 || replace(replace(replace(substring(t_health_dental.dental_modify_time,5),'-',''),',',''),':','')) || '000000'
                                   else ''
-                           end            
+                           end
                 else ''
-       end)  as D_UPDATE 
-from 
+       end)  as D_UPDATE
+from
         t_health_dental inner join t_visit on t_health_dental.t_visit_id = t_visit.t_visit_id
         inner join t_health_family on t_health_dental.t_health_family_id = t_health_family.t_health_family_id
-        left join b_employee on t_health_dental.dental_staff_record = b_employee.b_employee_id 
+        left join b_employee on t_health_dental.dental_staff_record = b_employee.b_employee_id
 
         left join t_death on t_health_family.t_health_family_id = t_death.t_health_family_id
                                     and t_death.death_active = '1'
 
         cross join b_site
-where 
+where
     t_health_dental.dental_active='1'
     and t_visit.f_visit_status_id <> '4'
     and t_health_family.health_family_active='1'
     AND t_visit.f_visit_type_id <> 'S'
     AND t_visit.visit_money_discharge_status='1'
-    AND t_visit.visit_doctor_discharge_status='1' 				
+    AND t_visit.visit_doctor_discharge_status='1'
+		AND substr( t_visit.visit_staff_doctor_discharge_date_time,1,10) between '?' and '?'
+    and (case when t_death.t_death_id is not null
+                then true
+           when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
+                then true
+                else false end)
           ";
-                if (!empty($date1) && !empty($date2)) {
-          $yt1=543+$y1=substr($date1, 0, 4);
-          $m1=substr($date1, 5, 2);
-          $d1=substr($date1, 8, 2);
-          $dq1=$yt1.'-'.$m1.'-'.$d1;
+    if (!empty($date1) && !empty($date2)) {
+    $yt1=543+$y1=substr($date1, 0, 4);
+    $m1=substr($date1, 5, 2);
+    $d1=substr($date1, 8, 2);
+    $dq1=$yt1.'-'.$m1.'-'.$d1;
+//$dq1=วันที่เริ่มต้น
+    $yt2=543+$y2=substr($date2, 0, 4);
+    $m2=substr($date2, 5, 2);
+    $d2=substr($date2, 8, 2);
+    $dq2=$yt2.'-'.$m2.'-'.$d2;
+//$dq2=วันที่สิ้นสุด
+    }else {
+      $date1=date('Y-m-d');
+      $date2=date('Y-m-d');
+      $yt1=543+$y1=substr($date1, 0, 4);
+      $m1=substr($date1, 5, 2);
+      $d1=substr($date1, 8, 2);
+      $dq1=$yt1.'-'.$m1.'-'.$d1;
+//$dq1=วันที่เริ่มต้น
+      $yt2=543+$y2=substr($date2, 0, 4);
+      $m2=substr($date2, 5, 2);
+      $d2=substr($date2, 8, 2);
+      $dq2=$yt2.'-'.$m2.'-'.$d2;
+//$dq2=วันที่สิ้นสุด
+    }
+//แทนค่า ? ด้วยวันที่
+    while ($ps=strpos($sql,"?")) {
+    $ps=strpos($sql,"?");
+    if($ps!==FALSE){  $qr = substr_replace($sql, $dq1, $ps ,1);  }
+    $ps2=strpos($qr,"?");
+    if($ps2!==FALSE){  $qr2 = substr_replace($qr, $dq2, $ps2 ,1);  }
+    $sql=$qr2;
+    }
+//แทนค่า ? ด้วยวันที่
 
-          $yt2=543+$y2=substr($date2, 0, 4);
-          $m2=substr($date2, 5, 2);
-          $d2=substr($date2, 8, 2);
-          $dq2=$yt2.'-'.$m2.'-'.$d2;
-                $sql.= "
-		AND substr( t_visit.visit_staff_doctor_discharge_date_time,1,10) between '$dq1' and '$dq2'				
-						";
-
-}else {
-            $date1=date('Y-m-d');
-            $date2=date('Y-m-d');
-            $yt1=543+$y1=substr($date1, 0, 4);
-            $m1=substr($date1, 5, 2);
-            $d1=substr($date1, 8, 2);
-            $dq1=$yt1.'-'.$m1.'-'.$d1;
-
-            $yt2=543+$y2=substr($date2, 0, 4);
-            $m2=substr($date2, 5, 2);
-            $d2=substr($date2, 8, 2);
-            $dq2=$yt2.'-'.$m2.'-'.$d2;
-                  $sql.= " 
-        AND substr( t_visit.visit_staff_doctor_discharge_date_time,1,10) between '$dq1' and '$dq2'				  
-						";
-          }
-                  $sql .="
-        and (case when t_death.t_death_id is not null 
-                    then true 
-               when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
-                    then true 
-                    else false end)
-                  ";
-
-			$query = Yii::$app->db->createCommand($sql)->queryAll();           
-			$dataProvider = new ArrayDataProvider([ 
+			$query = Yii::$app->db->createCommand($sql)->queryAll();
+			$dataProvider = new ArrayDataProvider([
               'allModels' => $query,
             //  'pagination' => FALSE,
               'pagination' => true,
               'pagination' => ['pagesize' => 10],
-			]);             
-			
+			]);
+
                   return $this->render('index', [
                       'dataProvider' => $dataProvider,
                       'query' => $query,
@@ -159,8 +162,8 @@ where
                       'data' => $data,
                       'date1' => $date1,
                       'date2' => $date2,
-					  
-          ]);  
+
+          ]);
     }
 
 }

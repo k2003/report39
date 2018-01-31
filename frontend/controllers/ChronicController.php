@@ -89,84 +89,84 @@ class ChronicController extends \yii\web\Controller
                       from t_chronic
                       where
                                t_chronic.chronic_active = '1'
+                               AND (case when length(t_chronic.modify_date_time) >= 10
+                                   then substr(t_chronic.modify_date_time,1,10)
+                                   else substr(t_chronic.record_date_time,1,10)
+                                   end between '?' and '?' )
+                                   AND (t_chronic.chronic_icd10 ilike 'I10%' OR t_chronic.chronic_icd10 ilike 'E10%' OR
+                                  t_chronic.chronic_icd10 ilike 'E11%' OR t_chronic.chronic_icd10 ilike 'E12%' OR t_chronic.chronic_icd10 ilike 'E13%' OR
+                                  t_chronic.chronic_icd10 ilike 'E14%'OR t_chronic.chronic_icd10 ilike 'N18' OR t_chronic.chronic_icd10 ilike 'N18.0' OR
+                                  t_chronic.chronic_icd10 ilike 'N18.8' OR t_chronic.chronic_icd10 ilike 'N18.9' )
+
+                           group by
+                                  t_chronic.t_patient_id
+                                  ,t_chronic.chronic_icd10 ) as max_chronic
+                     on t_chronic.t_patient_id = max_chronic.t_patient_id
+                        and t_chronic.chronic_icd10  = max_chronic.chronic_icd10
+                        and t_chronic.record_date_time = max_chronic.record_date_time ) as t_chronic
+
+                     INNER JOIN t_health_family  ON t_chronic.t_health_family_id = t_health_family.t_health_family_id
+                     INNER JOIN t_health_home ON t_health_family.t_health_home_id = t_health_home.t_health_home_id
+                     INNER JOIN t_health_village ON t_health_home.t_health_village_id = t_health_village.t_health_village_id
+                     left join t_death on t_health_family.t_health_family_id = t_death.t_health_family_id
+                                              and t_death.death_active = '1'
+                     cross join b_site
+
+                     WHERE
+                     t_health_family.health_family_active = '1'
+
+                     and (case when t_death.t_death_id is not null
+                              then true
+                         when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
+                              then true
+                              else false end)
+
+                     group by
+                     HOSPCODE
+                     ,PID
+                     -- ,DATE_DIAG
+                     ,CHRONIC
+                     ,HOSP_DX
+                     ,HOSP_RX
+                     -- ,DATE_DISCH
+                     ,TYPEDISCH
+                     -- ,D_UPDATE
+                     ,CID
       ";
-            if (!empty($date1) && !empty($date2)) {
-      $yt1=543+$y1=substr($date1, 0, 4);
-      $m1=substr($date1, 5, 2);
-      $d1=substr($date1, 8, 2);
-      $dq1=$yt1.'-'.$m1.'-'.$d1;
-
-      $yt2=543+$y2=substr($date2, 0, 4);
-      $m2=substr($date2, 5, 2);
-      $d2=substr($date2, 8, 2);
-      $dq2=$yt2.'-'.$m2.'-'.$d2;
-            $sql.= "
-            AND (case when length(t_chronic.modify_date_time) >= 10
-                then substr(t_chronic.modify_date_time,1,10)
-                else substr(t_chronic.record_date_time,1,10)
-                end between '$dq1' and '$dq2' )
-        ";
-
-}else {
-        $date1=date('Y-m-d');
-        $date2=date('Y-m-d');
-        $yt1=543+$y1=substr($date1, 0, 4);
-        $m1=substr($date1, 5, 2);
-        $d1=substr($date1, 8, 2);
-        $dq1=$yt1.'-'.$m1.'-'.$d1;
-
-        $yt2=543+$y2=substr($date2, 0, 4);
-        $m2=substr($date2, 5, 2);
-        $d2=substr($date2, 8, 2);
-        $dq2=$yt2.'-'.$m2.'-'.$d2;
-              $sql.= "
-              AND (case when length(t_chronic.modify_date_time) >= 10
-                  then substr(t_chronic.modify_date_time,1,10)
-                  else substr(t_chronic.record_date_time,1,10)
-                  end between '$dq1' and '$dq2' )
-        ";
-      }
-              $sql .="
-              AND (t_chronic.chronic_icd10 ilike 'I10%' OR t_chronic.chronic_icd10 ilike 'E10%' OR
-             t_chronic.chronic_icd10 ilike 'E11%' OR t_chronic.chronic_icd10 ilike 'E12%' OR t_chronic.chronic_icd10 ilike 'E13%' OR
-             t_chronic.chronic_icd10 ilike 'E14%'OR t_chronic.chronic_icd10 ilike 'N18' OR t_chronic.chronic_icd10 ilike 'N18.0' OR
-             t_chronic.chronic_icd10 ilike 'N18.8' OR t_chronic.chronic_icd10 ilike 'N18.9' )
-
-      group by
-             t_chronic.t_patient_id
-             ,t_chronic.chronic_icd10 ) as max_chronic
-on t_chronic.t_patient_id = max_chronic.t_patient_id
-   and t_chronic.chronic_icd10  = max_chronic.chronic_icd10
-   and t_chronic.record_date_time = max_chronic.record_date_time ) as t_chronic
-
-INNER JOIN t_health_family  ON t_chronic.t_health_family_id = t_health_family.t_health_family_id
-INNER JOIN t_health_home ON t_health_family.t_health_home_id = t_health_home.t_health_home_id
-INNER JOIN t_health_village ON t_health_home.t_health_village_id = t_health_village.t_health_village_id
-left join t_death on t_health_family.t_health_family_id = t_death.t_health_family_id
-                         and t_death.death_active = '1'
-cross join b_site
-
-WHERE
-t_health_family.health_family_active = '1'
-
-and (case when t_death.t_death_id is not null
-         then true
-    when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
-         then true
-         else false end)
-
-group by
-HOSPCODE
-,PID
--- ,DATE_DIAG
-,CHRONIC
-,HOSP_DX
-,HOSP_RX
--- ,DATE_DISCH
-,TYPEDISCH
--- ,D_UPDATE
-,CID
-              ";
+          if (!empty($date1) && !empty($date2)) {
+          $yt1=543+$y1=substr($date1, 0, 4);
+          $m1=substr($date1, 5, 2);
+          $d1=substr($date1, 8, 2);
+          $dq1=$yt1.'-'.$m1.'-'.$d1;
+          //$dq1=วันที่เริ่มต้น
+          $yt2=543+$y2=substr($date2, 0, 4);
+          $m2=substr($date2, 5, 2);
+          $d2=substr($date2, 8, 2);
+          $dq2=$yt2.'-'.$m2.'-'.$d2;
+          //$dq2=วันที่สิ้นสุด
+          }else {
+            $date1=date('Y-m-d');
+            $date2=date('Y-m-d');
+            $yt1=543+$y1=substr($date1, 0, 4);
+            $m1=substr($date1, 5, 2);
+            $d1=substr($date1, 8, 2);
+            $dq1=$yt1.'-'.$m1.'-'.$d1;
+          //$dq1=วันที่เริ่มต้น
+            $yt2=543+$y2=substr($date2, 0, 4);
+            $m2=substr($date2, 5, 2);
+            $d2=substr($date2, 8, 2);
+            $dq2=$yt2.'-'.$m2.'-'.$d2;
+          //$dq2=วันที่สิ้นสุด
+          }
+          //แทนค่า ? ด้วยวันที่
+          while ($ps=strpos($sql,"?")) {
+          $ps=strpos($sql,"?");
+          if($ps!==FALSE){  $qr = substr_replace($sql, $dq1, $ps ,1);  }
+          $ps2=strpos($qr,"?");
+          if($ps2!==FALSE){  $qr2 = substr_replace($qr, $dq2, $ps2 ,1);  }
+          $sql=$qr2;
+          }
+          //แทนค่า ? ด้วยวันที่
 
   $query = Yii::$app->db->createCommand($sql)->queryAll();
   $dataProvider = new ArrayDataProvider([

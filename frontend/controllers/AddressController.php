@@ -82,52 +82,52 @@ class AddressController extends \yii\web\Controller
       where
                t_health_family.health_family_active = '1'
                and t_health_family.f_patient_area_status_id <> '1'
+               and case when length(t_health_family.modify_date_time) >= 10
+                                  then substr(t_health_family.modify_date_time,1,10)
+                                  else substr(t_health_family.record_date_time,1,10)
+                               end between '?' and '?'
+                               and (case when t_death.t_death_id is not null
+                                           then true
+                                      when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
+                                           then true
+                                           else false end)
+                       order by
+                               PID asc
       ";
-            if (!empty($date1) && !empty($date2)) {
-      $yt1=543+$y1=substr($date1, 0, 4);
-      $m1=substr($date1, 5, 2);
-      $d1=substr($date1, 8, 2);
-      $dq1=$yt1.'-'.$m1.'-'.$d1;
-
-      $yt2=543+$y2=substr($date2, 0, 4);
-      $m2=substr($date2, 5, 2);
-      $d2=substr($date2, 8, 2);
-      $dq2=$yt2.'-'.$m2.'-'.$d2;
-            $sql.= "
-            and case when length(t_health_family.modify_date_time) >= 10
-                               then substr(t_health_family.modify_date_time,1,10)
-                               else substr(t_health_family.record_date_time,1,10)
-                            end between '$dq1' and '$dq2'
-        ";
-
+      if (!empty($date1) && !empty($date2)) {
+$yt1=543+$y1=substr($date1, 0, 4);
+$m1=substr($date1, 5, 2);
+$d1=substr($date1, 8, 2);
+$dq1=$yt1.'-'.$m1.'-'.$d1;
+//$dq1=วันที่เริ่มต้น
+$yt2=543+$y2=substr($date2, 0, 4);
+$m2=substr($date2, 5, 2);
+$d2=substr($date2, 8, 2);
+$dq2=$yt2.'-'.$m2.'-'.$d2;
+//$dq2=วันที่สิ้นสุด
 }else {
-        $date1=date('Y-m-d');
-        $date2=date('Y-m-d');
-        $yt1=543+$y1=substr($date1, 0, 4);
-        $m1=substr($date1, 5, 2);
-        $d1=substr($date1, 8, 2);
-        $dq1=$yt1.'-'.$m1.'-'.$d1;
-
-        $yt2=543+$y2=substr($date2, 0, 4);
-        $m2=substr($date2, 5, 2);
-        $d2=substr($date2, 8, 2);
-        $dq2=$yt2.'-'.$m2.'-'.$d2;
-              $sql.= "
-              and case when length(t_health_family.modify_date_time) >= 10
-                                 then substr(t_health_family.modify_date_time,1,10)
-                                 else substr(t_health_family.record_date_time,1,10)
-                              end between '$dq1' and '$dq2'
-        ";
-      }
-              $sql .="
-              and (case when t_death.t_death_id is not null
-                          then true
-                     when t_death.t_death_id is null and t_health_family.f_patient_discharge_status_id <> '1'
-                          then true
-                          else false end)
-      order by
-              PID asc
-              ";
+  $date1=date('Y-m-d');
+  $date2=date('Y-m-d');
+  $yt1=543+$y1=substr($date1, 0, 4);
+  $m1=substr($date1, 5, 2);
+  $d1=substr($date1, 8, 2);
+  $dq1=$yt1.'-'.$m1.'-'.$d1;
+//$dq1=วันที่เริ่มต้น
+  $yt2=543+$y2=substr($date2, 0, 4);
+  $m2=substr($date2, 5, 2);
+  $d2=substr($date2, 8, 2);
+  $dq2=$yt2.'-'.$m2.'-'.$d2;
+//$dq2=วันที่สิ้นสุด
+}
+//แทนค่า ? ด้วยวันที่
+while ($ps=strpos($sql,"?")) {
+$ps=strpos($sql,"?");
+if($ps!==FALSE){  $qr = substr_replace($sql, $dq1, $ps ,1);  }
+$ps2=strpos($qr,"?");
+if($ps2!==FALSE){  $qr2 = substr_replace($qr, $dq2, $ps2 ,1);  }
+$sql=$qr2;
+}
+//แทนค่า ? ด้วยวันที่
 
   $query = Yii::$app->db->createCommand($sql)->queryAll();
   $dataProvider = new ArrayDataProvider([
