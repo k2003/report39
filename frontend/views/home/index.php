@@ -17,7 +17,7 @@ use frontend\models\Bemployee;
 
 /* @var $this yii\web\View */
 ?>
-<h1>แฟ้ม ADDRESS</h1>
+<h1>แฟ้ม HOME</h1>
     <div class='well'>
 <?php  $form = ActiveForm::begin([
         'action' => ['index'],
@@ -69,16 +69,16 @@ echo GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'panel'=>[
-            'before'=>'แฟ้ม ADDRESS',
+            'before'=>'แฟ้ม HOME',
             'after'=>'ประมวลผล ณ '.date('Y-m-d H:i:s'),
         ],
 	    'responsive' => true,
         'hover' => true,
 	'exportConfig' => [
-        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
+        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_HOME_'.date('Y-d-m')],
+        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_HOME_'.date('Y-d-m')],
+        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_HOME_'.date('Y-d-m')],
+        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_HOME_'.date('Y-d-m')],
         ],
         // set your toolbar
             'toolbar' =>  [
@@ -101,7 +101,15 @@ echo GridView::widget([
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'hospcode:text:HOSPCODE',
-				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+        /*[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+          'attribute' => 'hospcode',
+          'label' => 'HOSPCODE',
+          'format'=>'raw',
+          'value'=>function($model){
+            return $hospcode=!empty($model["hospcode"]) ? $model["hospcode"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+          }
+        ],   */
+        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'hospcode',
           'label' => 'HOSPCODE',
           'format'=>'raw',
@@ -124,72 +132,56 @@ echo GridView::widget([
         ],
         //'pid:text:PID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'pid',
-          'label' => 'PID',
+          'attribute' => 'hid',
+          'label' => 'HID',
           'format'=>'raw',
           'value'=>function($model){
-            return $pid=!empty($model["pid"]) ? $model["pid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $hid=!empty($model["hid"]) ? $model["hid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
+        'house_id:text:HOUSE_ID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'addresstype',
-          'label' => 'ADDRESSTYPE',
+          'attribute' => 'seq',
+          'label' => 'HOUSETYPE',
           'format'=>'raw',
           'value'=>function($model){
-            return $addresstype=!empty($model["addresstype"]) ? $model["addresstype"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $housetype=!empty($model["housetype"]) ? $model["housetype"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
 
-		'house_id:text:HOUSE_ID',
-		[
-			'attribute' => 'housetype',
-			'label' => 'HOUSETYPE',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $housetype=!empty($model["housetype"]) ? $model["housetype"]: '<span class="label label-danger">ไม่มี</span>';
-			},
-		],
-		'roomno:text:ROOMNO',
-    'condo:text:CONDO',
-    'houseno:text:HOUSENO',
-    'soisub:text:SOISUB',
-    'soimain:text:SOIMAIN',
-    'road:text:ROAD',
-    'villaname:text:VILLANAME',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'village',
-          'label' => 'VILLAGE',
-          'format'=>'raw',
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $village=!empty($model["village"]) ? $model["village"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'tambon',
-          'label' => 'TAMBON',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $tambon=!empty($model["tambon"]) ? $model["tambon"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ampur',
-          'label' => 'AMPUR',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $ampur=!empty($model["ampur"]) ? $model["ampur"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'changwat',
-          'label' => 'CHANGWAT',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $changwat=!empty($model["changwat"]) ? $model["changwat"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
+    		'roomno:text:ROOMNO',
+        'condo:text:CONDO',
+        'house:text:HOUSE',
+        'soisub:text:SOISUB',
+        'soimain:text:SOIMAIN',
+        'road:text:ROAD',
+        'villaname:text:VILLANAME',
+        'village:text:VILLAGE',
+        'tambon:text:TAMBON',
+        'ampur:text:AMPUR',
+        'changwat:text:CHANGWAT',
+        'telephone:text:TELEPHONE',
+        'latitude:text:LATITUDE',
+        'longitude:text:LONGITUDE',
+        'nfamily:text:NFAMILY',
+        'locatype:text:LOCATYPE',
+        'vhvid:text:VHVID',
+        'headid:text:HEADID',
+        'toilet:text:TOILET',
+        'water:text:WATER',
+        'watertype:text:WATERTYPE',
+        'garbage:text:GARBAGE',
+        'housing:text:HOUSING',
+        'durability:text:DURABILITY',
+        'cleanliness:text:CLEANLINESS',
+        'ventilation:text:VENTILATION',
+        'light:text:LIGHT',
+        'watertm:text:WATERTM',
+        'mfood:text:MFOOD',
+        'bcontrol:text:BCONTROL',
+        'acontrol:text:ACONTROL',
+        'chemical:text:CHEMICAL',
+        'outdate:text:OUTDATE',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'd_update',
           'label' => 'D_UPDATE',
@@ -198,16 +190,8 @@ echo GridView::widget([
             return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
-				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'cid',
-          'label' => 'CID',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        ],
 
+        ],
 ]);
 ?>
 <script type="text/javascript">

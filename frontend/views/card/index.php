@@ -17,7 +17,7 @@ use frontend\models\Bemployee;
 
 /* @var $this yii\web\View */
 ?>
-<h1>แฟ้ม ADDRESS</h1>
+<h1>แฟ้ม CARD</h1>
     <div class='well'>
 <?php  $form = ActiveForm::begin([
         'action' => ['index'],
@@ -69,16 +69,16 @@ echo GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'panel'=>[
-            'before'=>'แฟ้ม ADDRESS',
+            'before'=>'แฟ้ม CARD',
             'after'=>'ประมวลผล ณ '.date('Y-m-d H:i:s'),
         ],
 	    'responsive' => true,
         'hover' => true,
 	'exportConfig' => [
-        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
-        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_ADDRESS_'.date('Y-d-m')],
+        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_CARD_'.date('Y-d-m')],
+        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_CARD_'.date('Y-d-m')],
+        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_CARD_'.date('Y-d-m')],
+        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_CARD_'.date('Y-d-m')],
         ],
         // set your toolbar
             'toolbar' =>  [
@@ -101,26 +101,13 @@ echo GridView::widget([
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'hospcode:text:HOSPCODE',
-				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'hospcode',
           'label' => 'HOSPCODE',
           'format'=>'raw',
-					'value'=>function($model){
-			if (isset($model["lastmodify"])) {
-				$namemodify = Bemployee::findOne($model["lastmodify"]);
-				$fname=$namemodify->employee_firstname;
-				$lastname=$namemodify->employee_lastname;
-	            return $hospcode=!empty($model["hospcode"]) ?
-				Html::tag('span', $model["hospcode"], [
-				'title'=> $fname.' '.$lastname,
-				'data-toggle'=>'tooltip',
-				'style'=>'text-decoration:underline;cursor:pointer;'
-				])
-				: '<span class="label label-danger">ไม่มี</span>';
-			}else {
-				return '<span class="label label-danger">ไม่มี</span>';
-			}
-          },
+          'value'=>function($model){
+            return $hospcode=!empty($model["hospcode"]) ? $model["hospcode"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+          }
         ],
         //'pid:text:PID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
@@ -131,65 +118,28 @@ echo GridView::widget([
             return $pid=!empty($model["pid"]) ? $model["pid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
+        //'seq:text:SEQ',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'addresstype',
-          'label' => 'ADDRESSTYPE',
+          'attribute' => 'instype_new',
+          'label' => 'INSTYPE_NEW',
           'format'=>'raw',
           'value'=>function($model){
-            return $addresstype=!empty($model["addresstype"]) ? $model["addresstype"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $instype_new=!empty($model["instype_new"]) ? $model["instype_new"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
-
-		'house_id:text:HOUSE_ID',
-		[
-			'attribute' => 'housetype',
-			'label' => 'HOUSETYPE',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $housetype=!empty($model["housetype"]) ? $model["housetype"]: '<span class="label label-danger">ไม่มี</span>';
-			},
-		],
-		'roomno:text:ROOMNO',
-    'condo:text:CONDO',
-    'houseno:text:HOUSENO',
-    'soisub:text:SOISUB',
-    'soimain:text:SOIMAIN',
-    'road:text:ROAD',
-    'villaname:text:VILLANAME',
+    		'insid:text:INSID',
+        //'stardate:text:STARTDATE',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'village',
-          'label' => 'VILLAGE',
-          'format'=>'raw',
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $village=!empty($model["village"]) ? $model["village"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'tambon',
-          'label' => 'TAMBON',
+          'attribute' => 'stardate',
+          'label' => 'STARTDATE',
           'format'=>'raw',
           'value'=>function($model){
-            return $tambon=!empty($model["tambon"]) ? $model["tambon"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $stardate=!empty($model["stardate"]) ? $model["stardate"] : '';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ampur',
-          'label' => 'AMPUR',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $ampur=!empty($model["ampur"]) ? $model["ampur"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'changwat',
-          'label' => 'CHANGWAT',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $changwat=!empty($model["changwat"]) ? $model["changwat"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
+        'expiredate:text:EXPIREDATE',
+        'main:text:MAIN',
+        'sub:text:SUB',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'd_update',
           'label' => 'D_UPDATE',
@@ -207,7 +157,6 @@ echo GridView::widget([
           }
         ],
         ],
-
 ]);
 ?>
 <script type="text/javascript">

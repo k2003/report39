@@ -97,194 +97,194 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                       											],
 					                                  [
                                                 "label" => "5. แฟ้ม CARD",
-                                                "url" => ["#"],
+                                                "url" => ["/card/index"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "6. แฟ้ม HOME",
-                                                "url" => ["#"],
+                                                "url" => ["/home/index"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "7. แฟ้ม VILLAGE",
-                                                "url" => ["#"],
+                                                "url" => ["/village/index"],
                                             ],
-											[
-												"label" => "8. แฟ้ม PROVIDER",
-												"url" => ["#"],
-											],
-											[
-												"label" => "9. แฟ้ม DRUGALLERGY",
-												"url" => ["#"],
-											],
-					                        [
+                      											[
+                      												"label" => "8. แฟ้ม DISABILITY",
+                      												"url" => ["/disability/index"],
+                      											],
+                      											[
+                      												"label" => "9. แฟ้ม PROVIDER",
+                      												"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "10. แฟ้ม WOMEN",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "11. แฟ้ม DRUGALLERGY",
                                                 "url" => ["#"],
                                             ],
-											[
-												"label" => "12. แฟ้ม FUNCTIONAL",
-												"url" => ["#"],
-											],
-											[
-											"label" => "13. แฟ้ม ICF",
-											"url" => ["#"],
-											],
-					                        [
+                      											[
+                      												"label" => "12. แฟ้ม FUNCTIONAL",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      											"label" => "13. แฟ้ม ICF",
+                      											"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "14. แฟ้ม SERVICE",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "15. แฟ้ม DIAGNOSIS_OPD",
                                                 "url" => ["#"],
                                             ],
-											[
-												"label" => "16. แฟ้ม DRUG_OPD",
-												"url" => ["#"],
-											],
-					                        [
+                      											[
+                      												"label" => "16. แฟ้ม DRUG_OPD",
+                      												"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "17. แฟ้ม PROCEDURE_OPD",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "18. แฟ้ม CHARGE_OPD",
                                                 "url" => ["#"],
                                             ],
-											[
-												"label" => "19. แฟ้ม SURVEILLANCE",
-												"url" => ["#"],
-											],
-											[
-												"label" => "20. แฟ้ม ACCIDENT",
-												"url" => ["#"],
-											],
-					                        [
+                      											[
+                      												"label" => "19. แฟ้ม SURVEILLANCE",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      												"label" => "20. แฟ้ม ACCIDENT",
+                      												"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "21. แฟ้ม LABFU",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "22. แฟ้ม CHRONICFU",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "23. แฟ้ม ADMISSION",
                                                 "url" => ["#"],
                                             ],
-											[
-												"label" => "24. แฟ้ม DIAGNOSIS_IPD",
-												"url" => ["#"],
-											],
-											[
-												"label" => "25. แฟ้ม DRUG_IPD",
-												"url" => ["#"],
-											],
-											[
-												"label" => "26. แฟ้ม PROCEDURE_IPD",
-												"url" => ["#"],
-											],
-					                        [
+											                      [
+                      												"label" => "24. แฟ้ม DIAGNOSIS_IPD",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      												"label" => "25. แฟ้ม DRUG_IPD",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      												"label" => "26. แฟ้ม PROCEDURE_IPD",
+                      												"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "27. แฟ้ม CHARGE_IPD",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "28. แฟ้ม APPOINTMENT",
                                                 "url" => ["#"],
                                             ],
-											[
-											"label" => "29. แฟ้ม DENTAL",
-											"url" => ["/dental/index"],
+                      											[
+                      											"label" => "29. แฟ้ม DENTAL",
+                      											"url" => ["/dental/index"],
 
-											],
-											[
-												"label" => "30. แฟ้ม REHABILITATION",
-												"url" => ["#"],
-											],
-											[
-												"label" => "31. แฟ้ม NCDSCREEN",
-												"url" => ["#"],
-											],
-											[
-												"label" => "32. แฟ้ม FP",
-												"url" => ["#"],
-											],
-					                        [
+                      											],
+                      											[
+                      												"label" => "30. แฟ้ม REHABILITATION",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      												"label" => "31. แฟ้ม NCDSCREEN",
+                      												"url" => ["#"],
+                      											],
+                      											[
+                      												"label" => "32. แฟ้ม FP",
+                      												"url" => ["#"],
+                      											],
+					                                  [
                                                 "label" => "33. แฟ้ม PRENATAL",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "34. แฟ้ม ANC",
                                                 "url" => ["/anc/index"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "35. แฟ้ม LABOR",
                                                 "url" => ["#"],
                                             ],
-											[
-											"label" => "36. แฟ้ม POSTNATAL",
-											"url" => ["#"],
-											],
-			                                [
+                      											[
+                      											"label" => "36. แฟ้ม POSTNATAL",
+                      											"url" => ["#"],
+                      											],
+      			                                [
                                                 "label" => "37. แฟ้ม NEWBORN",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "38. แฟ้ม NEWBORNCARE",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "39. แฟ้ม EPI",
                                                 "url" => ["/epi/index"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "40. แฟ้ม NUTRITION",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "41. แฟ้ม SPECIALPP",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "42. แฟ้ม COMMUNITY_ACTIVITY",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "43. แฟ้ม COMMUNITY_SERVICE",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "44. แฟ้ม CARE_REFER",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "45. แฟ้ม CLINICAL_REFER",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "46. แฟ้ม DRUG_REFER",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "47. แฟ้ม INVESTIGATION_REFER",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "48. แฟ้ม PROCEDURE_REFER",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "49. แฟ้ม REFER_HISTORY",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "50. แฟ้ม REFER_RESULT",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "51. แฟ้ม DATA_CORRECT",
                                                 "url" => ["#"],
                                             ],
-			                                [
+			                                      [
                                                 "label" => "52. แฟ้ม POLICY",
                                                 "url" => ["#"],
                                             ],

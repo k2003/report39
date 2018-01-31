@@ -17,7 +17,7 @@ use frontend\models\Bemployee;
 
 /* @var $this yii\web\View */
 ?>
-<h1>แฟ้ม CHRONIC</h1>
+<h1>แฟ้ม VILLAGE</h1>
     <div class='well'>
 <?php  $form = ActiveForm::begin([
         'action' => ['index'],
@@ -69,16 +69,16 @@ echo GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'panel'=>[
-            'before'=>'แฟ้ม CHRONIC',
+            'before'=>'แฟ้ม VILLAGE',
             'after'=>'ประมวลผล ณ '.date('Y-m-d H:i:s'),
         ],
 	    'responsive' => true,
         'hover' => true,
 	'exportConfig' => [
-        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_CHRONIC_'.date('Y-d-m')],
-        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_CHRONIC_'.date('Y-d-m')],
-        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_CHRONIC_'.date('Y-d-m')],
-        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_CHRONIC_'.date('Y-d-m')],
+        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_VILLAGE_'.date('Y-d-m')],
+        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_VILLAGE_'.date('Y-d-m')],
+        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_VILLAGE_'.date('Y-d-m')],
+        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_VILLAGE_'.date('Y-d-m')],
         ],
         // set your toolbar
             'toolbar' =>  [
@@ -111,61 +111,52 @@ echo GridView::widget([
         ],
         //'pid:text:PID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'pid',
-          'label' => 'PID',
+          'attribute' => 'vid',
+          'label' => 'VID',
           'format'=>'raw',
           'value'=>function($model){
-            return $pid=!empty($model["pid"]) ? $model["pid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $vid=!empty($model["vid"]) ? $model["vid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
-        //'seq:text:SEQ',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'date_diag',
-          'label' => 'DATE_DIAG',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $date_diag=!empty($model["date_diag"]) ? $model["date_diag"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-
-		//'date_serv:text:DATE_SERV',
-		[
-			'attribute' => 'chronic',
-			'label' => 'CHRONIC',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $chronic=!empty($model["chronic"]) ? $model["chronic"]: '<span class="label label-danger">ไม่มี</span>';
-			},
-		],
-		'hosp_dx:text:HOSP_DX',
-    'hosp_rx:text:HOSP_RX',
-    'date_disch:text:DATE_DISCH',
-		[
-			'attribute' => 'typedisch',
-			'label' => 'TYPEDISCH',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $typedisch=!empty($model["typedisch"]) ? $model["typedisch"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-		],
+        'ntraditional:text:NTRADITIONAL',
+        'nmonk:text:NMONK',
+        'nreligionleader:text:NRELIGIONLEADER',
+        'nbroadcast:text:NBROADCAST',
+        'nradio:text:NRADIO',
+        'npchc:text:NPCHC',
+        'nclinic:text:NCLINIC',
+        'ndrugstore:text:NDRUGSTORE',
+        'nchildcenter:text:NCHILDCENTER',
+        'npschool:text:NPSCHOOL',
+        'nsschool:text:NSSCHOOL',
+        'ntemple:text:NTEMPLE',
+        'nreligiousplace:text:NRELIGIOUSPLACE',
+        'nmarket:text:NMARKET',
+        'nshop:text:NSHOP',
+        'nfoodshop:text:NFOODSHOP',
+        'nstall:text:NSTALL',
+        'nraintank:text:NRAINTANK',
+        'nchickenfarm:text:NCHICKENFARM',
+        'npigfarm:text:NPIGFARM',
+        'wastewater:text:WASTEWATER',
+        'garbage:text:GARBAGE',
+        'nfactory:text:NFACTORY',
+        'latitude:text:LATITUDE',
+        'longitude:text:LONGITUDE',
+        'outdate:text:OUTDATE',
+        'numactually:text:NUMACTUALLY',
+        'risktype:text:RISKTYPE',
+        'numstateless:text:NUMSTATELESS',
+        'nexerciseclub:text:NEXERCISECLUB',
+        'nolderlyclub:text:NOLDERLYCLUB',
+        'ndisableclub:text:NDISABLECLUB',
+        'nnumberoneclub:text:NNUMBERONECLUB',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'd_update',
           'label' => 'D_UPDATE',
           'format'=>'raw',
           'value'=>function($model){
             return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'cid',
-          'label' => 'CID',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
         ],

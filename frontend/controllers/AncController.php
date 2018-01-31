@@ -99,7 +99,7 @@ SELECT  distinct
                 else ''
                    end as CID
 
-
+                ,t_health_anc.health_anc_staff_modify as lastmodify
 FROM t_health_anc
 	INNER JOIN t_health_family ON t_health_anc.t_health_family_id = t_health_family.t_health_family_id
   left join t_patient on t_health_family.t_health_family_id = t_patient.t_health_family_id and  t_patient.patient_active = '1'

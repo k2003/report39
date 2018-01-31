@@ -101,13 +101,26 @@ echo GridView::widget([
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'hospcode:text:HOSPCODE',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'hospcode',
           'label' => 'HOSPCODE',
           'format'=>'raw',
-          'value'=>function($model){
-            return $hospcode=!empty($model["hospcode"]) ? $model["hospcode"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
+					'value'=>function($model){
+			if (isset($model["lastmodify"])) {
+				$namemodify = Bemployee::findOne($model["lastmodify"]);
+				$fname=$namemodify->employee_firstname;
+				$lastname=$namemodify->employee_lastname;
+	            return $hospcode=!empty($model["hospcode"]) ?
+				Html::tag('span', $model["hospcode"], [
+				'title'=> $fname.' '.$lastname,
+				'data-toggle'=>'tooltip',
+				'style'=>'text-decoration:underline;cursor:pointer;'
+				])
+				: '<span class="label label-danger">ไม่มี</span>';
+			}else {
+				return '<span class="label label-danger">ไม่มี</span>';
+			}
+          },
         ],
         //'pid:text:PID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
