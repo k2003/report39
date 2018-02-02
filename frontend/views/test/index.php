@@ -45,7 +45,7 @@ Html::a('ลิงค์แบบที่ 4', ['test/test1','a'=>'1']);
 
 <hr>
 <?php
-			$namemodify = Bemployee::findOne(['employee_login'=>'jo','employee_password'=>md5('ninjax55')]);
+			$namemodify = Bemployee::findOne(['employee_login'=>'jo','employee_password'=>md5('xxxxxx')]);
 			echo $fname=$namemodify->employee_firstname." ".$lastname=$namemodify->employee_lastname;
 			
 ?>
