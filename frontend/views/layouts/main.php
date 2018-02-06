@@ -113,15 +113,15 @@ $checklogin = Bemployee::findOne(['b_employee_id'=>$session['userid'],]);
                       											],
                       											[
                       												"label" => "9. แฟ้ม PROVIDER",
-                      												"url" => ["#"],
+                      												"url" => ["/provider/index"],
                       											],
 					                                  [
                                                 "label" => "10. แฟ้ม WOMEN",
-                                                "url" => ["#"],
+                                                "url" => ["/women/index"],
                                             ],
 			                                      [
                                                 "label" => "11. แฟ้ม DRUGALLERGY",
-                                                "url" => ["#"],
+                                                "url" => ["/drugallergy/index"],
                                             ],
                       											[
                       												"label" => "12. แฟ้ม FUNCTIONAL",

@@ -149,64 +149,64 @@ echo GridView::widget([
           }
         ],
 
-		//'date_serv:text:DATE_SERV',
-		[
-			'attribute' => 'date_serv',
-			'label' => 'DATE_SERV',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $date_serv=!empty($model["date_serv"]) ? $model["date_serv"]: '<span class="label label-danger">ไม่มี</span>';
-			},
-		],
-		//'gravida:text:GRAVIDA',
-		[
-			'attribute' => 'gravida',
-			'label' => 'GRAVIDA',
-			'format'=>'raw',
-			//'width'=>'150px',
-			'noWrap'=>true,
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $gravida=!empty($model["gravida"]) ? $model["gravida"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-		],
-		'ancno:text:ANCNO',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ga',
-          'label' => 'GA',
-          'format'=>'raw',
-			'value'=>function ($model, $key, $index, $widget)
-			{ return $ga=!empty($model["ga"]) ? $model["ga"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-			},
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'ancresult',
-          'label' => 'ANCRESULT',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $ancresult=!empty($model["ancresult"]) ? $model["ancresult"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-		'ancplace:text:ANCPLACE',
-		'provider:text:PROVIDER',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'd_update',
-          'label' => 'D_UPDATE',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
+				//'date_serv:text:DATE_SERV',
+				[
+					'attribute' => 'date_serv',
+					'label' => 'DATE_SERV',
+					'format'=>'raw',
+					//'width'=>'150px',
+					'noWrap'=>true,
+					'value'=>function ($model, $key, $index, $widget)
+					{ return $date_serv=!empty($model["date_serv"]) ? $model["date_serv"]: '<span class="label label-danger">ไม่มี</span>';
+					},
+				],
+				//'gravida:text:GRAVIDA',
+				[
+					'attribute' => 'gravida',
+					'label' => 'GRAVIDA',
+					'format'=>'raw',
+					//'width'=>'150px',
+					'noWrap'=>true,
+					'value'=>function ($model, $key, $index, $widget)
+					{ return $gravida=!empty($model["gravida"]) ? $model["gravida"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
+					},
+				],
+				'ancno:text:ANCNO',
+		    [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+		      'attribute' => 'ga',
+		      'label' => 'GA',
+		      'format'=>'raw',
+					'value'=>function ($model, $key, $index, $widget)
+					{ return $ga=!empty($model["ga"]) ? $model["ga"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
+					},
+		    ],
+		    [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+		      'attribute' => 'ancresult',
+		      'label' => 'ANCRESULT',
+		      'format'=>'raw',
+		      'value'=>function($model){
+		      return $ancresult=!empty($model["ancresult"]) ? $model["ancresult"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+		      }
+		    ],
+				'ancplace:text:ANCPLACE',
+				'provider:text:PROVIDER',
+		    [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+		      'attribute' => 'd_update',
+		      'label' => 'D_UPDATE',
+		      'format'=>'raw',
+		      'value'=>function($model){
+		      return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+		      }
+		    ],
 				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'cid',
-          'label' => 'CID',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-        ],
+		    	'attribute' => 'cid',
+		      'label' => 'CID',
+		      'format'=>'raw',
+		      'value'=>function($model){
+		      return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+		      }
+		    ],
+      ],
 ]);
 ?>
 <script type="text/javascript">

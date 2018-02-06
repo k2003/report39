@@ -17,7 +17,7 @@ use frontend\models\Bemployee;
 
 /* @var $this yii\web\View */
 ?>
-<h1>แฟ้ม PROVIDER</h1>
+<h1>แฟ้ม DRUGALLERGY</h1>
     <div class='well'>
 <?php  $form = ActiveForm::begin([
         'action' => ['index'],
@@ -69,16 +69,16 @@ echo GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'panel'=>[
-            'before'=>'แฟ้ม PROVIDER',
+            'before'=>'แฟ้ม DRUGALLERGY',
             'after'=>'ประมวลผล ณ '.date('Y-m-d H:i:s'),
         ],
 	    'responsive' => true,
         'hover' => true,
 	'exportConfig' => [
-        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_PROVIDER_'.date('Y-d-m')],
-        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_PROVIDER_'.date('Y-d-m')],
-        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_PROVIDER_'.date('Y-d-m')],
-        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_PROVIDER_'.date('Y-d-m')],
+        GridView::CSV => ['label' => 'Export as CSV', 'filename' => 'F43_DRUGALLERGY_'.date('Y-d-m')],
+        //GridView::PDF => ['label' => 'Export as PDF', 'filename' => 'F43_DRUGALLERGY_'.date('Y-d-m')],
+        GridView::EXCEL=> ['label' => 'Export as EXCEL', 'filename' => 'F43_DRUGALLERGY_'.date('Y-d-m')],
+        GridView::TEXT=> ['label' => 'Export as TEXT', 'filename' => 'F43_DRUGALLERGY_'.date('Y-d-m')],
         ],
         // set your toolbar
             'toolbar' =>  [
@@ -101,101 +101,108 @@ echo GridView::widget([
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         //'hospcode:text:HOSPCODE',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+        /*[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'hospcode',
           'label' => 'HOSPCODE',
           'format'=>'raw',
           'value'=>function($model){
             return $hospcode=!empty($model["hospcode"]) ? $model["hospcode"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
+        ],   */
+        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+          'attribute' => 'hospcode',
+          'label' => 'HOSPCODE',
+          'format'=>'raw',
+					'value'=>function($model){
+			if (isset($model["lastmodify"])) {
+				$namemodify = Bemployee::findOne($model["lastmodify"]);
+				$fname=$namemodify->employee_firstname;
+				$lastname=$namemodify->employee_lastname;
+	            return $hospcode=!empty($model["hospcode"]) ?
+				Html::tag('span', $model["hospcode"], [
+				'title'=> $fname.' '.$lastname,
+				'data-toggle'=>'tooltip',
+				'style'=>'text-decoration:underline;cursor:pointer;'
+				])
+				: '<span class="label label-danger">ไม่มี</span>';
+			}else {
+				return '<span class="label label-danger">ไม่มี</span>';
+			}
+          },
         ],
         //'pid:text:PID',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
           'attribute' => 'pid',
-          'label' => 'PROVIDER',
+          'label' => 'PID',
           'format'=>'raw',
           'value'=>function($model){
-            return $provider=!empty($model["provider"]) ? $model["provider"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $pid=!empty($model["pid"]) ? $model["pid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
-        'registerno:text:REGISTERNO',
-				'council:text:COUNCIL',
+        //'seq:text:SEQ',
         [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'cid',
-          'label' => 'CID',
+          'attribute' => 'daterecord',
+          'label' => 'DATERECORD',
           'format'=>'raw',
           'value'=>function($model){
-            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+            return $daterecord=!empty($model["daterecord"]) ? $model["daterecord"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
           }
         ],
 
-				'prename:text:PRENAME',
+				//'date_serv:text:DATE_SERV',
 				[
-					'attribute' => 'name',
-					'label' => 'NAME',
+					'attribute' => 'drugallergy',
+					'label' => 'DRUGALLERGY',
 					'format'=>'raw',
 					//'width'=>'150px',
 					'noWrap'=>true,
 					'value'=>function ($model, $key, $index, $widget)
-					{ return $name=!empty($model["name"]) ? $model["name"]: '<span class="label label-danger">ไม่มี</span>';
+					{ return $drugallergy=!empty($model["drugallergy"]) ? $model["drugallergy"]: '<span class="label label-danger">ไม่มี</span>';
 					},
 				],
-				//'gravida:text:GRAVIDA',
+				//'dname:text:DNAME',
+        [
+					'attribute' => 'dname',
+					'label' => 'DNAME',
+					'format'=>'raw',
+					'width'=>'250px',
+					'noWrap'=>true,
+					'value'=>function ($model, $key, $index, $widget)
+					{ return $dname=!empty($model["dname"]) ? $model["dname"]: '';
+					},
+				],
+        'typedx:text:TYPEDX',
+        'alevel:text:ALEVEL',
+        'symptom:text:SYMPTOM',
 				[
-					'attribute' => 'lname',
-					'label' => 'LNAME',
+					'attribute' => 'informant',
+					'label' => 'INFORMANT',
 					'format'=>'raw',
 					//'width'=>'150px',
 					'noWrap'=>true,
 					'value'=>function ($model, $key, $index, $widget)
-					{ return $lname=!empty($model["lname"]) ? $model["lname"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
+					{ return $informant=!empty($model["informant"]) ? $model["informant"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
 					},
 				],
-				[
-					'attribute' => 'sex',
-					'label' => 'SEX',
-					'format'=>'raw',
-					//'width'=>'150px',
-					'noWrap'=>true,
-					'value'=>function ($model, $key, $index, $widget)
-					{ return $sex=!empty($model["sex"]) ? $model["sex"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-					},
-				],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'birth',
-          'label' => 'BIRTH',
-          'format'=>'raw',
-					'value'=>function ($model, $key, $index, $widget)
-					{ return $birth=!empty($model["birth"]) ? $model["birth"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน},
-					},
-        ],
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'providertype',
-          'label' => 'PROVIDERTYPE',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $providertype=!empty($model["providertype"]) ? $model["providertype"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-				[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'startdate',
-          'label' => 'STARTDATE',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $startdate=!empty($model["startdate"]) ? $model["startdate"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
-				'outdate:text:OUTDATE',
-				'movefrom:text:MOVEFROM',
-				'moveto:text:MOVETO',
-        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
-          'attribute' => 'd_update',
-          'label' => 'D_UPDATE',
-          'format'=>'raw',
-          'value'=>function($model){
-            return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
-          }
-        ],
+				'informhosp:text:INFORMHOSP',
+
+		        [ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+		          'attribute' => 'd_update',
+		          'label' => 'D_UPDATE',
+		          'format'=>'raw',
+		          'value'=>function($model){
+		            return $d_update=!empty($model["d_update"]) ? $model["d_update"] : '<span class="label label-danger">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+		          }
+		        ],
+            'provider:text:PROVIDER',
+						[ // แสดงข้อมูลออกเป็นสีตามเงื่อนไข
+		          'attribute' => 'cid',
+		          'label' => 'CID',
+		          'format'=>'raw',
+		          'value'=>function($model){
+		            return $cid=!empty($model["cid"]) ? $model["cid"] : '<span class="label label-warning">ไม่มี</span>';//ถ้า query มีค่าว่างต้องเช็คก่อน
+		          }
+		        ],
         ],
 ]);
 ?>
