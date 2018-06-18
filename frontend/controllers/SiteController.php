@@ -74,8 +74,42 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		
-        return $this->render('index');
+        $datenow=date('Y-m-d');
+        $yearnow=543+$y1=substr($datenow, 0, 4);
+        $visit_master = "
+        SELECT count(t_visit_id) as visit FROM t_visit
+        ";	
+        $visit_slave = "
+        SELECT count(t_visit_id) as visit FROM t_visit
+        ";  
+        $nullvisit_hn = "
+        SELECT count(t_visit_id) as nullvisit_hn FROM t_visit WHERE visit_hn=''
+        ";  
+        $nullvisit_vn = "
+        SELECT count(t_visit_id) as nullvisit_vn FROM t_visit WHERE visit_vn=''
+        ";  
+        $double_vn = "
+        SELECT
+        count(q.visit_vn) as number
+        FROM
+        (SELECT visit_vn from t_visit
+        WHERE substring(visit_begin_visit_time,1,10) between '2556-01-01' and '$yearnow-12-31'
+        GROUP BY visit_vn
+        HAVING (count(visit_vn)>'1')
+        ORDER BY visit_vn) as q
+        ";                                
+        $visit_master = Yii::$app->db->createCommand($visit_master)->queryScalar();	 
+        $visit_slave = Yii::$app->db2->createCommand($visit_slave)->queryScalar();	
+        $nullvisit_hn = Yii::$app->db->createCommand($nullvisit_hn)->queryScalar();
+        $nullvisit_vn = Yii::$app->db->createCommand($nullvisit_vn)->queryScalar(); 
+        $double_vn = Yii::$app->db->createCommand($double_vn)->queryScalar();          		
+        return $this->render('index',[
+            'visit_master' => $visit_master,
+            'visit_slave' => $visit_slave,
+            'nullvisit_hn' => $nullvisit_hn,
+            'nullvisit_vn' => $nullvisit_vn,   
+            'double_vn' => $double_vn,      
+        ]);
     }
 
     /**

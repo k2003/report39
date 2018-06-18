@@ -13,7 +13,6 @@ class PersonController extends \yii\web\Controller
           $date1 = isset($data['date1']) ? $data['date1'] : '';
           $date2 = isset($data['date2']) ? $data['date2'] : '';
 
-
           $sql = "
 select  distinct
             b_site.b_visit_office_id as HOSPCODE
@@ -259,7 +258,7 @@ where
               'pagination' => ['pagesize' => 10],
 			]);
 
-
+                  
                   return $this->render('index', [
                       'dataProvider' => $dataProvider,
                       'query' => $query,

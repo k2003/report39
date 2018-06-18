@@ -10,7 +10,7 @@ use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
 use frontend\models\Bemployee;
 
-class DashboardController extends \yii\web\Controller
+class TotalvisitController extends \yii\web\Controller
 {
     public function actionIndex()
     {
@@ -32,63 +32,10 @@ class DashboardController extends \yii\web\Controller
 			$d2=substr($date2, 8, 2);
 			$dq2=$yt2.'-'.$m2.'-'.$d2;
 		//$dq2=วันที่สิ้นสุด
-				$opd_p = "
-				select count(distinct t_visit.visit_hn) as opd_p FROM t_visit 
-				WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '0' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";	
-				$opd_v = "
-				select count(distinct t_visit.visit_vn) as opd_v FROM t_visit 
-				WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '0' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";
-				$ipd_p = "
-				select count(distinct t_visit.visit_hn) as ipd_p FROM t_visit 
-				WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";				
-				$ipd_v = "
-				select count(distinct t_visit.visit_vn) as ipd_v FROM t_visit 
-				WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";	
-				$nday = "
-				select (('$dq2'::date - '$dq1'::date+1)) as nday
-				";	
-				$adjcmilos = "
-				select sum(t_diag_tdrg.adjrw) as adjrw, round(sum(t_diag_tdrg.adjrw)/(count(t_diag_tdrg.adjrw)),4) as CMI,
-				sum(case when (to_date(substring(visit_staff_doctor_discharge_date_time,1,10),'YYYY-MM-DD') - 
-					to_date(substring(t_visit.visit_begin_admit_date_time,1,10),'YYYY-MM-DD')) = 0
-							then 1
-							else (to_date(substring(visit_staff_doctor_discharge_date_time,1,10),'YYYY-MM-DD') - 
-					to_date(substring(t_visit.visit_begin_admit_date_time,1,10),'YYYY-MM-DD'))
-					end) as los
-				FROM t_visit 
-				left join t_diag_tdrg on t_visit.t_visit_id = t_diag_tdrg.t_visit_id
-				WHERE  t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";											
-				$opd_vach = "
-				SELECT count(DISTINCT t_visit.visit_vn) as visit FROM t_visit
-					LEFT JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id
-					LEFT JOIN f_patient_prefix ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
-				WHERE t_visit.f_visit_status_id = '2' -- 1 = เข้าสู่กระบวนการ, 2 = ค้างบันทึก, 3 = จบกระบวนการ , 4 = ยกเลิกกระบวนการ
-						and t_visit.f_visit_type_id = '0' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				"; 			
-				$ipd_vach = "
-				SELECT count(DISTINCT t_visit.visit_vn) as visit FROM t_visit
-					LEFT JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id
-					LEFT JOIN f_patient_prefix ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
-				WHERE t_visit.f_visit_status_id = '2' -- 1 = เข้าสู่กระบวนการ, 2 = ค้างบันทึก, 3 = จบกระบวนการ , 4 = ยกเลิกกระบวนการ
-						and t_visit.f_visit_type_id = '1' 
-				and substr(visit_staff_doctor_discharge_date_time,1,10) Between '$dq1' and '$dq2'
-				";
 
 				$yg=$yt2-1;//ปี่ก่อน
 				$yg1=$yt2;//ปีปัจจุบัน
-				$ym=$yt2;//ปีงบ 
-/*
+				$ym=$yt2;//ปีงบ  
 				$m_opd = "
 				SELECT q.m,q.cc,q.vv
 				from
@@ -197,7 +144,7 @@ class DashboardController extends \yii\web\Controller
 				) as q
 				ORDER BY q.m					
 		"; 	
-*/
+
 
 			}else {		
 
@@ -229,59 +176,7 @@ class DashboardController extends \yii\web\Controller
 		}
 		
 			
-			$opd_p = "
-					select count(distinct t_visit.visit_hn) as opd_p FROM t_visit 
-					WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '0' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";
-			$opd_v = "
-					select count(distinct t_visit.visit_vn) as opd_v FROM t_visit 
-					WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '0' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";
-			$ipd_p = "
-					select count(distinct t_visit.visit_hn) as ipd_p FROM t_visit 
-					WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";
-			$ipd_v = "
-					select count(distinct t_visit.visit_vn) as ipd_v FROM t_visit 
-					WHERE t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";
-			$nday = "
-			select (('$ye-09-30'::date - '$ys-10-01'::date+1)) as nday
-			";
-			$adjcmilos = "
-					select sum(t_diag_tdrg.adjrw) as adjrw, round(sum(t_diag_tdrg.adjrw)/(count(t_diag_tdrg.adjrw)),4) as CMI,
-				sum(case when (to_date(substring(visit_staff_doctor_discharge_date_time,1,10),'YYYY-MM-DD') - 
-						to_date(substring(t_visit.visit_begin_admit_date_time,1,10),'YYYY-MM-DD')) = 0
-								then 1
-								else (to_date(substring(visit_staff_doctor_discharge_date_time,1,10),'YYYY-MM-DD') - 
-						to_date(substring(t_visit.visit_begin_admit_date_time,1,10),'YYYY-MM-DD'))
-						end) as los
-				FROM t_visit 
-					left join t_diag_tdrg on t_visit.t_visit_id = t_diag_tdrg.t_visit_id
-					WHERE  t_visit.f_visit_status_id <> '4' and t_visit.f_visit_type_id = '1' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";				
-			$opd_vach = "
-					SELECT count(DISTINCT t_visit.visit_vn) as visit FROM t_visit
-						LEFT JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id
-						LEFT JOIN f_patient_prefix ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
-					WHERE t_visit.f_visit_status_id = '2' -- 1 = เข้าสู่กระบวนการ, 2 = ค้างบันทึก, 3 = จบกระบวนการ , 4 = ยกเลิกกระบวนการ
-							and t_visit.f_visit_type_id = '0' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			"; 
-			$ipd_vach = "
-					SELECT count(DISTINCT t_visit.visit_vn) as visit FROM t_visit
-						LEFT JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id
-						LEFT JOIN f_patient_prefix ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
-					WHERE t_visit.f_visit_status_id = '2' -- 1 = เข้าสู่กระบวนการ, 2 = ค้างบันทึก, 3 = จบกระบวนการ , 4 = ยกเลิกกระบวนการ
-							and t_visit.f_visit_type_id = '1' 
-					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$ys-10-01',1,10) and substring('$ye-09-30',1,10))
-			";  
-/*
+
 			$m_opd = "
 					SELECT q.m,q.cc,q.vv
 					from
@@ -389,50 +284,34 @@ class DashboardController extends \yii\web\Controller
 					and (substr(visit_staff_doctor_discharge_date_time,1,10)Between substring('$yg1-09-01',1,10) and substring('$yg1-09-30',1,10))
 					) as q
 					ORDER BY q.m					
-			"; 
-			*/			
+			"; 			
 					}
-			$opd_p = Yii::$app->db->createCommand($opd_p)->queryScalar();		
-			$opd_v = Yii::$app->db->createCommand($opd_v)->queryScalar();
-			$ipd_p = Yii::$app->db->createCommand($ipd_p)->queryScalar();		
-			$ipd_v = Yii::$app->db->createCommand($ipd_v)->queryScalar();
-			$nday = Yii::$app->db->createCommand($nday)->queryScalar();
-			$opd_vach = Yii::$app->db->createCommand($opd_vach)->queryScalar();
-			$ipd_vach = Yii::$app->db->createCommand($ipd_vach)->queryScalar();
-			//$m_opd = Yii::$app->db->createCommand($m_opd)->queryAll();
-			//$m_ipd = Yii::$app->db->createCommand($m_ipd)->queryAll();
-			$adjcmilos = Yii::$app->db->createCommand($adjcmilos)->queryAll();
-			/*
+
+
+			$m_opd = Yii::$app->db->createCommand($m_opd)->queryAll();
+			$m_ipd = Yii::$app->db->createCommand($m_ipd)->queryAll();
+
+			
 			$dataProvider1 = new ArrayDataProvider([ 
               'allModels' => $m_opd,
               'pagination' => FALSE,
             /*  'pagination' => true,
               'pagination' => ['pagesize' => 10], */
-		//	]); 
-			/*
+			]); 
 			$dataProvider2 = new ArrayDataProvider([ 
               'allModels' => $m_ipd,
               'pagination' => FALSE,
             /*  'pagination' => true,
               'pagination' => ['pagesize' => 10], */
-		//	]); 
-						
+			]); 			
 		    return $this->render('index', [
 				'ym' => $ym,
-				'opd_p' => $opd_p,
-				'opd_v' => $opd_v,
-				'ipd_p' => $ipd_p,
-				'ipd_v' => $ipd_v,
-				'nday' => $nday,
-				'opd_vach' => $opd_vach,
-				'ipd_vach' => $ipd_vach,
-			//	'm_opd' => $m_opd,
-			//	'm_ipd' => $m_ipd,
+				'm_opd' => $m_opd,
+				'm_ipd' => $m_ipd,
 				'b_year' => $ym,
 				'g_year' => $g_year,
-			//	'dataProvider1' => $dataProvider1,
-			//	'dataProvider2' => $dataProvider2,
-				'adjcmilos' => $adjcmilos,
+				'dataProvider1' => $dataProvider1,
+				'dataProvider2' => $dataProvider2,
 				'date1' => $date1,
 				'date2' => $date2,
 			]);		
